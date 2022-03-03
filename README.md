@@ -4,7 +4,7 @@ This is a small Python unit testing framework
 
 ## Features
 
-- [ ] True
-- [ ] False
-- [ ] Equal
-- [ ] NotEqual
+- [x] True
+- [x] False
+- [x] Equal
+- [x] NotEqual
