@@ -35,7 +35,6 @@ def timed(fn):
         end_time = datetime.now()
         diff = end_time-start_time
         print(f"Tests took: {diff}")
-
     return inner
 
 def run_test(instance, tests, setup=None, teardown=None):
@@ -49,7 +48,7 @@ def run_test(instance, tests, setup=None, teardown=None):
     if len(failing) == 0: return
     print('%s Failing: ' % instance.__class__.__name__)
     for ft in failing:
-        print("\t%s" % ft.__name__)
+        print("    %s" % ft.__name__)
 
 def configure_instance(instance, tests, setup_func=None, teardown_func=None):
     instance.run = lambda: run_test(instance, tests, setup_func, teardown_func)
