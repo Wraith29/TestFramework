@@ -1,35 +1,42 @@
-from testing import Teardown, TestCase, Test, Setup, run
+import typing as t
+from testing import TestCase, Case, Test, Setup, Teardown, run
 
-my_tests = []
+tests: t.List[TestCase] = []
 
-@TestCase(my_tests)
-class FirstSet:
+@Case(tests)
+class PassingTests(TestCase):
     @Setup
-    def _setup(self):
-        self.a = 'a'
-        self.b = 'b'
+    def setup(self) -> None:
+        self.a = 1
+        self.b = 2
+    
+    @Test
+    def passing1(self) -> bool:
+        self.b -= 1
+        return self.assertEqual(self.a, self.b)
 
     @Test
-    def passing(self):
-        return self.expectTrue(self.a != self.b)
-    
-    @Test
-    def passing2(self):
-        return self.expectFalse(self.a == self.b)
-    
+    def passing2(self) -> bool:
+        return self.assertNotEqual(self.a, self.b)
+
     @Teardown
-    def _teardown(self):
-        self.a = None
-        self.b = None
+    def teardown(self) -> None:
+        self.a = 5
+        self.b = 8
 
-@TestCase(my_tests)
-class SecondSet:
-    @Test
-    def failing(self):
-        return self.expectEqual(1+1, 3)
+@Case(tests)
+class FailingTests(TestCase):
+    @Setup
+    def setup(self) -> None:
+        self.a = 1
+        self.b = 1
     
     @Test
-    def failing2(self):
-        return self.expectNotEqual(1+2, 3)
+    def failing1(self) -> bool:
+        return self.assertNotEqual(self.a, self.b)
+    
+    @Test
+    def failing2(self) -> bool:
+        return self.assertTrue(self.a != self.b)
 
-run(my_tests)
+run(tests)

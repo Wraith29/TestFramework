@@ -1,0 +1,65 @@
+from datetime import datetime
+from functools import wraps
+import typing as t
+
+T = t.TypeVar("T")
+
+def firstOrNone(arr: t.List[T]) -> t.Optional[T]:
+    ...
+
+def getAllInstances(cls: T, name: str) -> t.List[t.Any]:
+    ...
+
+def getFirstInstance(cls: T, name: str) -> t.Optional[t.Callable[[], None]]:
+    ...
+
+def Timed(fn: t.Callable[[t.List[t.Any]], None]) -> t.Callable[..., None]:
+    """Runs & Times the given function, outputting how long the tests took"""
+    ...
+
+def Setup(fn: t.Callable[[t.Any], None]) -> t.Callable[[t.Any], None]:
+    """This function will run before every test, use it to set instance variables for testing"""
+    ...
+
+def Teardown(fn: t.Callable[[t.Any], None]) -> t.Callable[[t.Any], None]:
+    """This function will run after every test, use it to clear down any instance variables"""
+    ...
+
+def Test(fn: t.Callable[[t.Any], bool]) -> t.Callable[[t.Any], bool]:
+    """Any method decorated with this will be run as a test"""
+    ...
+
+class Case(t.Generic[T]):
+    """This must be placed on any TestCases with a collection of tests to be run in"""
+    ...
+    def __init__(self, collection: t.List['TestCase']) -> None:
+        ...
+
+    def __call__(self, cls: t.Callable[[], 'TestCase']) -> 'TestCase':
+        ...
+
+class TestCase:
+    """
+    Any children of this will inherit the assertion methods:\n
+    `assertTrue(expression: bool) -> bool`\n
+    `assertFalse(expression: bool) -> bool`\n
+    `assertEqual(expected: str | int, actual: str | int) -> bool`\n
+    `assertNotEqual(expected: str | int, actual: str | int) -> bool`
+    """
+    def assertTrue(self, expression: bool) -> bool:
+        ...    
+    def assertFalse(self, expression: bool) -> bool:
+        ...
+    def assertEqual(self, expected: t.Union[str, int], actual: t.Union[str, int]) -> bool:
+        ...    
+    def assertNotEqual(self, expected: t.Union[str, int], actual: t.Union[str, int]) -> bool:
+        ...
+    def __init__(self) -> None:
+        ...
+
+    def run(self) -> None:
+        ...
+
+@Timed
+def run(test_collection: t.List[TestCase]) -> None:
+    ...
